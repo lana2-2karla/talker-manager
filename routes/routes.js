@@ -1,7 +1,7 @@
 const route = require('express').Router();
 const express = require('express');
 const { readTalker } = require('../helpers');
-const errorTalker = require('../middleware/errorMiddleware');
+// const errorTalker = require('../middleware/errorMiddleware');
 
 route.use(express.json());
 
