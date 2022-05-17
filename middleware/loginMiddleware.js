@@ -1,4 +1,4 @@
-const validation = (req, res, _next) => {
+const validation = (req, res, next) => {
 const SIX = 6;
 const { email, password } = req.body;
 const regex = /\S+@\S+\.\S+/;
@@ -13,6 +13,7 @@ if (!password) return res.status(400).json({ message: 'O campo "password" é obr
 if (password.length < SIX) {
     return res.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
 }
+next();
 };
 
 module.exports = validation;
