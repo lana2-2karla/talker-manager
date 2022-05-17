@@ -2,6 +2,7 @@ const route = require('express').Router();
 const express = require('express');
 const { readTalker } = require('../helpers');
 const generateToken = require('../utils/token');
+const loginMiddleware = require('../middleware/loginMiddleware');
 // const errorTalker = require('../middleware/errorMiddleware');
 
 route.use(express.json());
@@ -19,7 +20,7 @@ route.get('/talker/:id', async (req, res) => {
     res.status(200).json(talkerId);
 });
 
-route.post('/login', (_req, res) => {
+route.post('/login', loginMiddleware, (_req, res) => {
 const token = generateToken();
 res.status(200).json({ token });
 });
