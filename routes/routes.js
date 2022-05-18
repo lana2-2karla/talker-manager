@@ -1,9 +1,17 @@
 const route = require('express').Router();
 const express = require('express');
-const { readTalker } = require('../helpers');
+const { readTalker, writeTalker } = require('../helpers');
 const generateToken = require('../utils/token');
-const loginMiddleware = require('../middleware/loginMiddleware');
+const validation = require('../middlewares/loginMiddleware');
 // const errorTalker = require('../middleware/errorMiddleware');
+const tokenMiddleware = require('../middlewares/tokenValidationMiddleware');
+const { 
+    verifyName,
+    verifyAge, 
+    verifyTalkWatchedAt, 
+    verifyTalkRate, 
+    verifyTalk,
+} = require('../middlewares/talkerMiddleware');
 
 route.use(express.json());
 
@@ -20,9 +28,35 @@ route.get('/talker/:id', async (req, res) => {
     res.status(200).json(talkerId);
 });
 
-route.post('/login', loginMiddleware, (_req, res) => {
-const token = generateToken();
-res.status(200).json({ token });
+route.post('/login', validation, (_req, res) => {
+    const token = generateToken();
+    res.status(200).json({ token });
 });
+
+route.post(
+    '/talker',
+    tokenMiddleware,
+    verifyName,
+    verifyAge,
+    verifyTalk,
+    verifyTalkRate,
+    verifyTalkWatchedAt,
+ async (req, res) => {
+    console.log(req.body);
+const { name, age, talk: { watchedAt, rate } } = req.body;
+const talker = await readTalker();
+const newTalker = {
+    id: Math.max(...talker.map((talk) => talk.id)) + 1, 
+    name,
+    age,
+     talk: { watchedAt, rate },
+    };
+
+talker.push(newTalker);
+    
+await writeTalker(talker);
+return res.status(201).json(newTalker);
+},
+);
 
 module.exports = route;
