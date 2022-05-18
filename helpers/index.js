@@ -7,6 +7,13 @@ const readTalker = async () => {
   return talker;
 };
 
+const writeTalker = async (talker) => {
+  const stringTalker = JSON.stringify(talker);
+
+  await fs.writeFile('./talker.json', stringTalker, 'utf8');
+};
+
 module.exports = {
     readTalker,
+    writeTalker,
   };
