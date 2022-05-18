@@ -3,7 +3,6 @@ const express = require('express');
 const { readTalker, writeTalker } = require('../helpers');
 const generateToken = require('../utils/token');
 const validation = require('../middlewares/loginMiddleware');
-// const errorTalker = require('../middleware/errorMiddleware');
 const tokenMiddleware = require('../middlewares/tokenValidationMiddleware');
 const { 
     verifyName,
