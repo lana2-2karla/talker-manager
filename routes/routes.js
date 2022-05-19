@@ -1,6 +1,6 @@
 const route = require('express').Router();
 const express = require('express');
-const { readTalker, writeTalker } = require('../helpers');
+const { readTalker, writeTalker, editTalker } = require('../helpers');
 const generateToken = require('../utils/token');
 const validation = require('../middlewares/loginMiddleware');
 const tokenMiddleware = require('../middlewares/tokenValidationMiddleware');
@@ -39,9 +39,7 @@ route.post(
     verifyAge,
     verifyTalk,
     verifyTalkRate,
-    verifyTalkWatchedAt,
- async (req, res) => {
-    console.log(req.body);
+    verifyTalkWatchedAt, async (req, res) => {
 const { name, age, talk: { watchedAt, rate } } = req.body;
 const talker = await readTalker();
 const newTalker = {
@@ -57,5 +55,16 @@ await writeTalker(talker);
 return res.status(201).json(newTalker);
 },
 );
+
+route.put('/talker/:id',
+tokenMiddleware,
+verifyName,
+verifyAge,
+verifyTalk,
+verifyTalkRate,
+verifyTalkWatchedAt, async (req, res) => {
+const talkersEdit = await editTalker(+req.params.id, req.body);
+return res.status(200).json(talkersEdit);
+});
 
 module.exports = route;

@@ -1,4 +1,3 @@
-// const writeTalker = require('../helpers/index');
 const moment = require('moment');
 
 const verifyName = (req, res, next) => {
@@ -35,7 +34,7 @@ const verifyTalk = (req, res, next) => {
 const verifyTalkWatchedAt = (req, res, next) => {
     const { talk: { watchedAt } } = req.body;
 
-    if (!watchedAt || watchedAt.length === 0) {
+    if (!watchedAt) {
         return res.status(400)
         .json({ message: 
         'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' });
@@ -50,15 +49,14 @@ const verifyTalkWatchedAt = (req, res, next) => {
 
 const verifyTalkRate = (req, res, next) => {
     const { talk: { rate } } = req.body;
-    if (!rate) {
-        return res.status(400).json({ message: 
-            'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' });
-        }
-        console.log('talkkkkkk', rate <= 1 || rate >= 5);
     if (rate < 1 || rate > 5) {
         return res.status(400)
         .json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
     }
+    if (!rate) {
+        return res.status(400).json({ message: 
+            'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' });
+        }
     next();
 };
 
