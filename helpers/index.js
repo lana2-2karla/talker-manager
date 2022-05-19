@@ -15,14 +15,21 @@ const writeTalker = async (talker) => {
 
 const editTalker = async (id, newTalker) => {
   const talkers = await readTalker();
-  const arr = talkers.filter((talker) => talker.id !== +id);
+  const arrNotNewTalker = talkers.filter((talker) => talker.id !== +id);
   const edit = { id, ...newTalker };
-  await writeTalker([...arr, edit]);
+  await writeTalker([...arrNotNewTalker, edit]);
   return edit;
+};
+
+const deleteTalker = async (id) => {
+  const talkers = await readTalker();
+  const arrNotNewTalker = talkers.filter((talker) => talker.id !== +id);
+  await writeTalker(arrNotNewTalker);
 };
 
 module.exports = {
     readTalker,
     writeTalker,
     editTalker,
+    deleteTalker,
   };
