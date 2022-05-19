@@ -13,7 +13,16 @@ const writeTalker = async (talker) => {
   await fs.writeFile('./talker.json', stringTalker, 'utf8');
 };
 
+const editTalker = async (id, newTalker) => {
+  const talkers = await readTalker();
+  const arr = talkers.filter((talker) => talker.id !== +id);
+  const edit = { id, ...newTalker };
+  await writeTalker([...arr, edit]);
+  return edit;
+};
+
 module.exports = {
     readTalker,
     writeTalker,
+    editTalker,
   };
