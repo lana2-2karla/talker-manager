@@ -27,9 +27,16 @@ const deleteTalker = async (id) => {
   await writeTalker(arrNotNewTalker);
 };
 
+const talkersFilter = async (searchTerm) => {
+  const talkers = await readTalker();
+  const arrTalkersFiltered = talkers.filter((talker) => talker.name.includes(searchTerm));
+  return arrTalkersFiltered;
+};
+
 module.exports = {
     readTalker,
     writeTalker,
     editTalker,
     deleteTalker,
+    talkersFilter,
   };
