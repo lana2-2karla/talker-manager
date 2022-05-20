@@ -1,9 +1,15 @@
 const route = require('express').Router();
 const express = require('express');
-const { readTalker, writeTalker, editTalker, deleteTalker, talkersFilter } = require('../helpers');
-const generateToken = require('../utils/token');
 const validation = require('../middlewares/loginMiddleware');
 const tokenMiddleware = require('../middlewares/tokenValidationMiddleware');
+const { 
+    readTalker,
+    writeTalker,
+    editTalker,
+    deleteTalker,
+    talkersFilter,
+    generateToken,
+} = require('../helpers');
 const { 
     verifyName,
     verifyAge, 

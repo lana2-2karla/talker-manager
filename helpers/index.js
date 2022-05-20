@@ -33,10 +33,17 @@ const talkersFilter = async (searchTerm) => {
   return arrTalkersFiltered;
 };
 
+const crypto = require('crypto');
+
+function generateToken() {
+  return crypto.randomBytes(8).toString('hex');
+}
+
 module.exports = {
     readTalker,
     writeTalker,
     editTalker,
     deleteTalker,
     talkersFilter,
+    generateToken,
   };

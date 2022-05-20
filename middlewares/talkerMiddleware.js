@@ -1,4 +1,5 @@
 const moment = require('moment');
+// ref do moment, biblioteca que utilizei para validação de datas: https://www.delftstack.com/pt/howto/javascript/javascript-validate-date/
 
 const verifyName = (req, res, next) => {
     const { name } = req.body;
