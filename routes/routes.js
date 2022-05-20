@@ -1,6 +1,6 @@
 const route = require('express').Router();
 const express = require('express');
-const { readTalker, writeTalker, editTalker, deleteTalker } = require('../helpers');
+const { readTalker, writeTalker, editTalker, deleteTalker, talkersFilter } = require('../helpers');
 const generateToken = require('../utils/token');
 const validation = require('../middlewares/loginMiddleware');
 const tokenMiddleware = require('../middlewares/tokenValidationMiddleware');
@@ -13,6 +13,15 @@ const {
 } = require('../middlewares/talkerMiddleware');
 
 route.use(express.json());
+
+route.get('/talker/search', tokenMiddleware, async (req, res) => {
+    const { q } = req.query;
+    const talkers = await readTalker();
+    const talkerFiltered = await talkersFilter(q);
+    if (!q) return res.status(204).json(talkers);
+    if (talkerFiltered.length === 0) return res.status(200).json(talkerFiltered);
+    return res.status(200).json(talkerFiltered);
+});
 
 route.get('/talker', async (_req, rest) => {
     const talker = await readTalker();
